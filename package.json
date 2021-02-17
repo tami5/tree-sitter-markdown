@@ -1,0 +1,18 @@
+{
+  "name": "tree-sitter-markdown",
+  "version": "0.1.0",
+  "description": "tree-sitter parser for markdown.",
+  "main": "index.js",
+  "scripts": {
+    "test": "tree-sitter test & script/parse-examples"
+  },
+  "keywords": [
+    "parser",
+    "lexer"
+  ],
+  "author": "tami5",
+  "license": "MIT",
+  "dependencies": {
+    "nan": "^2.14.2"
+  }
+}
