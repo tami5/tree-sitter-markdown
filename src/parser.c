@@ -6,9 +6,9 @@
 #endif
 
 #define LANGUAGE_VERSION 12
-#define STATE_COUNT 11
+#define STATE_COUNT 12
 #define LARGE_STATE_COUNT 4
-#define SYMBOL_COUNT 9
+#define SYMBOL_COUNT 10
 #define ALIAS_COUNT 0
 #define TOKEN_COUNT 4
 #define EXTERNAL_TOKEN_COUNT 0
@@ -24,6 +24,7 @@ enum {
   sym_bold = 6,
   sym_paragraph = 7,
   aux_sym_document_repeat1 = 8,
+  aux_sym_paragraph_repeat1 = 9,
 };
 
 static const char *ts_symbol_names[] = {
@@ -36,6 +37,7 @@ static const char *ts_symbol_names[] = {
   [sym_bold] = "bold",
   [sym_paragraph] = "paragraph",
   [aux_sym_document_repeat1] = "document_repeat1",
+  [aux_sym_paragraph_repeat1] = "paragraph_repeat1",
 };
 
 static TSSymbol ts_symbol_map[] = {
@@ -48,6 +50,7 @@ static TSSymbol ts_symbol_map[] = {
   [sym_bold] = sym_bold,
   [sym_paragraph] = sym_paragraph,
   [aux_sym_document_repeat1] = aux_sym_document_repeat1,
+  [aux_sym_paragraph_repeat1] = aux_sym_paragraph_repeat1,
 };
 
 static const TSSymbolMetadata ts_symbol_metadata[] = {
@@ -84,6 +87,10 @@ static const TSSymbolMetadata ts_symbol_metadata[] = {
     .named = true,
   },
   [aux_sym_document_repeat1] = {
+    .visible = false,
+    .named = false,
+  },
+  [aux_sym_paragraph_repeat1] = {
     .visible = false,
     .named = false,
   },
@@ -169,11 +176,12 @@ static TSLexMode ts_lex_modes[STATE_COUNT] = {
   [3] = {.lex_state = 0},
   [4] = {.lex_state = 0},
   [5] = {.lex_state = 0},
-  [6] = {.lex_state = 3},
+  [6] = {.lex_state = 0},
   [7] = {.lex_state = 3},
-  [8] = {.lex_state = 0},
+  [8] = {.lex_state = 3},
   [9] = {.lex_state = 0},
   [10] = {.lex_state = 0},
+  [11] = {.lex_state = 0},
 };
 
 static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
@@ -183,11 +191,12 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym___] = ACTIONS(1),
   },
   [1] = {
-    [sym_document] = STATE(8),
+    [sym_document] = STATE(9),
     [sym__any] = STATE(2),
     [sym_bold] = STATE(4),
     [sym_paragraph] = STATE(2),
     [aux_sym_document_repeat1] = STATE(2),
+    [aux_sym_paragraph_repeat1] = STATE(4),
     [ts_builtin_sym_end] = ACTIONS(3),
     [anon_sym_STAR_STAR] = ACTIONS(5),
     [anon_sym___] = ACTIONS(7),
@@ -197,6 +206,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_bold] = STATE(4),
     [sym_paragraph] = STATE(3),
     [aux_sym_document_repeat1] = STATE(3),
+    [aux_sym_paragraph_repeat1] = STATE(4),
     [ts_builtin_sym_end] = ACTIONS(9),
     [anon_sym_STAR_STAR] = ACTIONS(5),
     [anon_sym___] = ACTIONS(7),
@@ -206,6 +216,7 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [sym_bold] = STATE(4),
     [sym_paragraph] = STATE(3),
     [aux_sym_document_repeat1] = STATE(3),
+    [aux_sym_paragraph_repeat1] = STATE(4),
     [ts_builtin_sym_end] = ACTIONS(11),
     [anon_sym_STAR_STAR] = ACTIONS(13),
     [anon_sym___] = ACTIONS(16),
@@ -213,59 +224,80 @@ static uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
 };
 
 static uint16_t ts_small_parse_table[] = {
-  [0] = 1,
-    ACTIONS(19), 3,
+  [0] = 4,
+    ACTIONS(19), 1,
       ts_builtin_sym_end,
+    ACTIONS(21), 1,
       anon_sym_STAR_STAR,
+    ACTIONS(24), 1,
       anon_sym___,
-  [6] = 1,
-    ACTIONS(21), 3,
-      ts_builtin_sym_end,
-      anon_sym_STAR_STAR,
-      anon_sym___,
-  [12] = 1,
-    ACTIONS(23), 1,
-      sym_text,
-  [16] = 1,
-    ACTIONS(25), 1,
-      sym_text,
-  [20] = 1,
+    STATE(5), 2,
+      sym_bold,
+      aux_sym_paragraph_repeat1,
+  [14] = 4,
     ACTIONS(27), 1,
       ts_builtin_sym_end,
-  [24] = 1,
     ACTIONS(29), 1,
       anon_sym_STAR_STAR,
+    ACTIONS(32), 1,
+      anon_sym___,
+    STATE(5), 2,
+      sym_bold,
+      aux_sym_paragraph_repeat1,
   [28] = 1,
-    ACTIONS(29), 1,
+    ACTIONS(35), 3,
+      ts_builtin_sym_end,
+      anon_sym_STAR_STAR,
+      anon_sym___,
+  [34] = 1,
+    ACTIONS(37), 1,
+      sym_text,
+  [38] = 1,
+    ACTIONS(39), 1,
+      sym_text,
+  [42] = 1,
+    ACTIONS(41), 1,
+      ts_builtin_sym_end,
+  [46] = 1,
+    ACTIONS(43), 1,
+      anon_sym_STAR_STAR,
+  [50] = 1,
+    ACTIONS(43), 1,
       anon_sym___,
 };
 
 static uint32_t ts_small_parse_table_map[] = {
   [SMALL_STATE(4)] = 0,
-  [SMALL_STATE(5)] = 6,
-  [SMALL_STATE(6)] = 12,
-  [SMALL_STATE(7)] = 16,
-  [SMALL_STATE(8)] = 20,
-  [SMALL_STATE(9)] = 24,
-  [SMALL_STATE(10)] = 28,
+  [SMALL_STATE(5)] = 14,
+  [SMALL_STATE(6)] = 28,
+  [SMALL_STATE(7)] = 34,
+  [SMALL_STATE(8)] = 38,
+  [SMALL_STATE(9)] = 42,
+  [SMALL_STATE(10)] = 46,
+  [SMALL_STATE(11)] = 50,
 };
 
 static TSParseActionEntry ts_parse_actions[] = {
   [0] = {.entry = {.count = 0, .reusable = false}},
   [1] = {.entry = {.count = 1, .reusable = false}}, RECOVER(),
   [3] = {.entry = {.count = 1, .reusable = true}}, REDUCE(sym_document, 0),
-  [5] = {.entry = {.count = 1, .reusable = true}}, SHIFT(6),
-  [7] = {.entry = {.count = 1, .reusable = true}}, SHIFT(7),
+  [5] = {.entry = {.count = 1, .reusable = true}}, SHIFT(7),
+  [7] = {.entry = {.count = 1, .reusable = true}}, SHIFT(8),
   [9] = {.entry = {.count = 1, .reusable = true}}, REDUCE(sym_document, 1),
   [11] = {.entry = {.count = 1, .reusable = true}}, REDUCE(aux_sym_document_repeat1, 2),
-  [13] = {.entry = {.count = 2, .reusable = true}}, REDUCE(aux_sym_document_repeat1, 2), SHIFT_REPEAT(6),
-  [16] = {.entry = {.count = 2, .reusable = true}}, REDUCE(aux_sym_document_repeat1, 2), SHIFT_REPEAT(7),
+  [13] = {.entry = {.count = 2, .reusable = true}}, REDUCE(aux_sym_document_repeat1, 2), SHIFT_REPEAT(7),
+  [16] = {.entry = {.count = 2, .reusable = true}}, REDUCE(aux_sym_document_repeat1, 2), SHIFT_REPEAT(8),
   [19] = {.entry = {.count = 1, .reusable = true}}, REDUCE(sym_paragraph, 1),
-  [21] = {.entry = {.count = 1, .reusable = true}}, REDUCE(sym_bold, 3),
-  [23] = {.entry = {.count = 1, .reusable = true}}, SHIFT(9),
-  [25] = {.entry = {.count = 1, .reusable = true}}, SHIFT(10),
-  [27] = {.entry = {.count = 1, .reusable = true}},  ACCEPT_INPUT(),
-  [29] = {.entry = {.count = 1, .reusable = true}}, SHIFT(5),
+  [21] = {.entry = {.count = 2, .reusable = true}}, REDUCE(sym_paragraph, 1), SHIFT(7),
+  [24] = {.entry = {.count = 2, .reusable = true}}, REDUCE(sym_paragraph, 1), SHIFT(8),
+  [27] = {.entry = {.count = 1, .reusable = true}}, REDUCE(aux_sym_paragraph_repeat1, 2),
+  [29] = {.entry = {.count = 2, .reusable = true}}, REDUCE(aux_sym_paragraph_repeat1, 2), SHIFT_REPEAT(7),
+  [32] = {.entry = {.count = 2, .reusable = true}}, REDUCE(aux_sym_paragraph_repeat1, 2), SHIFT_REPEAT(8),
+  [35] = {.entry = {.count = 1, .reusable = true}}, REDUCE(sym_bold, 3),
+  [37] = {.entry = {.count = 1, .reusable = true}}, SHIFT(10),
+  [39] = {.entry = {.count = 1, .reusable = true}}, SHIFT(11),
+  [41] = {.entry = {.count = 1, .reusable = true}},  ACCEPT_INPUT(),
+  [43] = {.entry = {.count = 1, .reusable = true}}, SHIFT(6),
 };
 
 #ifdef __cplusplus

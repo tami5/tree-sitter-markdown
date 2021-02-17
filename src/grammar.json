@@ -27,54 +27,53 @@
       "value": "[\\w\\s]+"
     },
     "bold": {
-      "type": "PREC",
-      "value": 2,
-      "content": {
-        "type": "CHOICE",
-        "members": [
-          {
-            "type": "SEQ",
-            "members": [
-              {
-                "type": "STRING",
-                "value": "**"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "text"
-              },
-              {
-                "type": "STRING",
-                "value": "**"
-              }
-            ]
-          },
-          {
-            "type": "SEQ",
-            "members": [
-              {
-                "type": "STRING",
-                "value": "__"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "text"
-              },
-              {
-                "type": "STRING",
-                "value": "__"
-              }
-            ]
-          }
-        ]
-      }
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "**"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "text"
+            },
+            {
+              "type": "STRING",
+              "value": "**"
+            }
+          ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "__"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "text"
+            },
+            {
+              "type": "STRING",
+              "value": "__"
+            }
+          ]
+        }
+      ]
     },
     "paragraph": {
       "type": "CHOICE",
       "members": [
         {
-          "type": "SYMBOL",
-          "name": "bold"
+          "type": "REPEAT1",
+          "content": {
+            "type": "SYMBOL",
+            "name": "bold"
+          }
         }
       ]
     }
@@ -85,7 +84,12 @@
       "value": "\\s+"
     }
   ],
-  "conflicts": [],
+  "conflicts": [
+    [
+      "paragraph",
+      "paragraph"
+    ]
+  ],
   "externals": [],
   "inline": [],
   "supertypes": []
